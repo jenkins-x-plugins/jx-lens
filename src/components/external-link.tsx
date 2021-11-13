@@ -21,8 +21,8 @@
 
 
 import React from "react";
-import {Renderer} from "@k8slens/extensions";
-import {openExternalLink} from "./activity-menu";
+import { Renderer } from "@k8slens/extensions";
+import { openExternalLink } from "./activity-menu";
 
 const {
   Navigation,
@@ -38,7 +38,7 @@ export interface ExternalLinkProps {
 
 export class ExternalLink extends React.Component<ExternalLinkProps> {
   render() {
-    const {href, text, title} = this.props;
+    const { href, text, title } = this.props;
 
     return (
       <a onClick={() => this.openLink(href)} title={title}>{text}</a>

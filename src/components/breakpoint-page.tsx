@@ -1,16 +1,16 @@
 import styles from "../../styles.module.scss";
 
-import {Renderer} from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 import React from "react";
-import {breakpointsStore} from "../breakpoint-store";
-import {Breakpoint} from "../breakpoint"
+import { breakpointsStore } from "../breakpoint-store";
+import { Breakpoint } from "../breakpoint";
 
 enum sortBy {
   repository = "repository",
   branch = "branch",
   context = "context",
   breakpoint = "breakpoint",
-  age = "age"
+  age = "age",
 }
 
 
@@ -30,15 +30,15 @@ export class BreakpointPage extends React.Component<{ extension: Renderer.LensEx
             [sortBy.age]: (breakpoint: Breakpoint) => breakpoint.createdTime,
           }}
           searchFilters={[
-            (breakpoint: Breakpoint) => breakpoint.getSearchFields()
+            (breakpoint: Breakpoint) => breakpoint.getSearchFields(),
           ]}
           renderHeaderTitle="Breakpoints"
           renderTableHeader={[
-            {title: "Repository", className: "repository", sortBy: sortBy.repository},
-            {title: "Branch", className: "branch", sortBy: sortBy.branch},
-            {title: "Context", className: "context", sortBy: sortBy.context},
-            {title: "Breakpoint", className: "breakpoint", sortBy: sortBy.breakpoint},
-            {title: "Age", className: "age", sortBy: sortBy.age},
+            { title: "Repository", className: "repository", sortBy: sortBy.repository },
+            { title: "Branch", className: "branch", sortBy: sortBy.branch },
+            { title: "Context", className: "context", sortBy: sortBy.context },
+            { title: "Breakpoint", className: "breakpoint", sortBy: sortBy.breakpoint },
+            { title: "Age", className: "age", sortBy: sortBy.age },
           ]}
           renderTableContents={(breakpoint: Breakpoint) => {
             return [
@@ -46,12 +46,12 @@ export class BreakpointPage extends React.Component<{ extension: Renderer.LensEx
               breakpoint.spec.filter.branch,
               breakpoint.spec.filter.context,
               renderBreakpoint(breakpoint),
-              breakpoint.createdAt
+              breakpoint.createdAt,
             ];
           }}
         />
       </Renderer.Component.TabLayout>
-    )
+    );
   }
 }
 
@@ -61,18 +61,22 @@ function renderBreakpoint(breakpoint: Breakpoint) {
     return "";
   }
   const bp = breakpoint.spec.debug.breakpoint;
+
   if (!bp) {
     return "";
   }
-  return bp.join(", ")
+
+  return bp.join(", ");
 }
 
 // renderRepository renders the repository name
 function renderRepository(breakpoint: Breakpoint) {
   const owner = breakpoint.spec.filter.owner;
   const repository = breakpoint.spec.filter.repository;
+
   if (owner) {
-    return repository ? owner + "/" + repository : owner;
+    return repository ? `${owner}/${repository}` : owner;
   }
+
   return repository ? repository : "";
 }

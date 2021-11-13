@@ -4,11 +4,11 @@ import { Activity } from "./activity";
 export class ActivitiesApi extends Renderer.K8sApi.KubeApi<Activity> {
 }
 export const activitiesApi = new ActivitiesApi({
-  objectConstructor: Activity
+  objectConstructor: Activity,
 });
 
 export class ActivitiesStore extends Renderer.K8sApi.KubeObjectStore<Activity> {
-  api = activitiesApi
+  api = activitiesApi;
 }
 
 export const activitiesStore = new ActivitiesStore();

@@ -4,11 +4,11 @@ import { Preview } from "./preview";
 export class PreviewsApi extends Renderer.K8sApi.KubeApi<Preview> {
 }
 export const previewsApi = new PreviewsApi({
-  objectConstructor: Preview
+  objectConstructor: Preview,
 });
 
 export class PreviewsStore extends Renderer.K8sApi.KubeObjectStore<Preview> {
-  api = previewsApi
+  api = previewsApi;
 }
 
 export const previewsStore = new PreviewsStore();

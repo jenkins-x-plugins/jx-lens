@@ -1,10 +1,10 @@
-import {Renderer} from "@k8slens/extensions";
-import {dateFromNow} from "./activity";
+import { Renderer } from "@k8slens/extensions";
+import { dateFromNow } from "./activity";
 
 export class Preview extends Renderer.K8sApi.KubeObject {
-  static kind = "Preview"
-  static namespaced = true
-  static apiBase = "/apis/preview.jenkins.io/v1alpha1/previews"
+  static kind = "Preview";
+  static namespaced = true;
+  static apiBase = "/apis/preview.jenkins.io/v1alpha1/previews";
 
   kind: string;
   apiVersion: string;
@@ -21,12 +21,12 @@ export class Preview extends Renderer.K8sApi.KubeObject {
     annotations: {
       [key: string]: string;
     };
-  }
+  };
   spec: {
     source: PreviewSource;
     pullRequest: PreviewPullRequest;
     resources: PreviewResources;
-  }
+  };
 
   get createdAt(): string {
     return dateFromNow(this.metadata.creationTimestamp);

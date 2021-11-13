@@ -21,9 +21,9 @@
 
 
 import React from "react";
-import {Common, Renderer} from "@k8slens/extensions";
-import {Environment} from "../environment";
-import {openExternalLink} from "./activity-menu";
+import { Common, Renderer } from "@k8slens/extensions";
+import { Environment } from "../environment";
+import { openExternalLink } from "./activity-menu";
 
 const {
   Component: {
@@ -44,16 +44,17 @@ export interface EnvironmentMenuProps extends Renderer.Component.KubeObjectMenuP
 
 export class EnvironmentMenu extends React.Component<EnvironmentMenuProps> {
   render() {
-    const {object, toolbar} = this.props;
+    const { object, toolbar } = this.props;
 
-    let appURL = object.sourceUrl;
+    const appURL = object.sourceUrl;
+
     if (!appURL) {
       return "";
     }
 
     return (
       <MenuItem onClick={Util.prevDefault(() => openExternalLink(appURL))}
-                title="View the environment source repository">
+        title="View the environment source repository">
         <Icon material="visibility" interactive={toolbar}/>
         <span className="title">View Repository</span>
       </MenuItem>
