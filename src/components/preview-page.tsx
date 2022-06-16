@@ -1,10 +1,10 @@
 import styles from "../../styles.module.scss";
 
-import {Renderer} from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 import React from "react";
-import {previewsStore} from "../preview-store";
-import {Preview} from "../preview"
-import {ExternalLink} from "./external-link";
+import { previewsStore } from "../preview-store";
+import { Preview } from "../preview";
+import { ExternalLink } from "./external-link";
 
 enum sortBy {
   owner = "owner",
@@ -12,7 +12,7 @@ enum sortBy {
   pr = "pr",
   comment = "comment",
   author = "author",
-  age = "age"
+  age = "age",
 }
 
 
@@ -29,21 +29,21 @@ export class PreviewPage extends React.Component<{ extension: Renderer.LensExten
             [sortBy.repository]: (preview: Preview) => preview.spec.pullRequest.repository,
             [sortBy.pr]: (preview: Preview) => preview.spec.pullRequest.number,
             [sortBy.comment]: (preview: Preview) => preview.spec.pullRequest.title,
-            [sortBy.author]: (preview: Preview) => (preview.spec.pullRequest.user.username || "") + "/" + preview.spec.pullRequest.owner + "/" + preview.spec.pullRequest.repository,
+            [sortBy.author]: (preview: Preview) => `${preview.spec.pullRequest.user.username || ""}/${preview.spec.pullRequest.owner}/${preview.spec.pullRequest.repository}`,
             [sortBy.age]: (preview: Preview) => preview.createdTime,
           }}
           searchFilters={[
-            (preview: Preview) => preview.getSearchFields()
+            (preview: Preview) => preview.getSearchFields(),
           ]}
           renderHeaderTitle="Previews"
           renderTableHeader={[
-            {title: "Owner", className: "owner", sortBy: sortBy.owner},
-            {title: "Repository", className: "repository", sortBy: sortBy.repository},
-            {title: "PR", className: "pr", sortBy: sortBy.pr},
-            {title: "Comment", className: "comment", sortBy: sortBy.comment},
-            {title: "Author", className: "author"},
-            {title: "Preview", className: "preview"},
-            {title: "Age", className: "age", sortBy: sortBy.age},
+            { title: "Owner", className: "owner", sortBy: sortBy.owner },
+            { title: "Repository", className: "repository", sortBy: sortBy.repository },
+            { title: "PR", className: "pr", sortBy: sortBy.pr },
+            { title: "Comment", className: "comment", sortBy: sortBy.comment },
+            { title: "Author", className: "author" },
+            { title: "Preview", className: "preview" },
+            { title: "Age", className: "age", sortBy: sortBy.age },
           ]}
           renderTableContents={(preview: Preview) => {
             return [
@@ -53,12 +53,12 @@ export class PreviewPage extends React.Component<{ extension: Renderer.LensExten
               renderComment(preview),
               renderAuthor(preview),
               renderPreview(preview),
-              preview.createdAt
+              preview.createdAt,
             ];
           }}
         />
       </Renderer.Component.TabLayout>
-    )
+    );
   }
 }
 
@@ -68,9 +68,11 @@ function renderPreview(preview: Preview) {
     return "";
   }
   const appURL = preview.spec.resources.url;
+
   if (!appURL) {
-    return ""
+    return "";
   }
+
   return (
     <ExternalLink href={appURL} text="try me" title="try out the preview"></ExternalLink>
   );
@@ -79,6 +81,7 @@ function renderPreview(preview: Preview) {
 // renderComment renders the try it button
 function renderComment(preview: Preview) {
   const comment = preview.spec.pullRequest.title;
+
   return (
     <span title={comment}>{comment}</span>
   );
@@ -90,17 +93,21 @@ function renderAuthor(preview: Preview) {
     return "";
   }
   const user = preview.spec.pullRequest.user;
+
   if (!user || !user.username) {
     return "";
   }
   const imageUrl = user.imageUrl;
+
   if (!imageUrl) {
-    return <span>{user.username}</span>
+    return <span>{user.username}</span>;
   }
   let linkUrl = user.linkUrl;
+
   if (!linkUrl) {
-    linkUrl = "https://github.com/" + user.username;
+    linkUrl = `https://github.com/${user.username}`;
   }
+
   return (
     <span
         title={user.username}

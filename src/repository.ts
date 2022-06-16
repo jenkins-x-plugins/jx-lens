@@ -1,10 +1,10 @@
-import {Renderer} from "@k8slens/extensions";
-import {dateFromNow} from "./activity";
+import { Renderer } from "@k8slens/extensions";
+import { dateFromNow } from "./activity";
 
 export class Repository extends Renderer.K8sApi.KubeObject {
-  static kind = "SourceRepository"
-  static namespaced = true
-  static apiBase = "/apis/jenkins.io/v1/sourcerepositories"
+  static kind = "SourceRepository";
+  static namespaced = true;
+  static apiBase = "/apis/jenkins.io/v1/sourcerepositories";
 
   kind: string;
   apiVersion: string;
@@ -21,7 +21,7 @@ export class Repository extends Renderer.K8sApi.KubeObject {
     annotations: {
       [key: string]: string;
     };
-  }
+  };
   spec: {
     httpCloneURL: string;
     org: string;
@@ -30,7 +30,7 @@ export class Repository extends Renderer.K8sApi.KubeObject {
     providerName: string;
     repo: string;
     url: string;
-  }
+  };
 
   get createdAt(): string {
     return dateFromNow(this.metadata.creationTimestamp);

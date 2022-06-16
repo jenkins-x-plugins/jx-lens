@@ -4,11 +4,11 @@ import { Environment } from "./environment";
 export class EnvironmentsApi extends Renderer.K8sApi.KubeApi<Environment> {
 }
 export const environmentsApi = new EnvironmentsApi({
-  objectConstructor: Environment
+  objectConstructor: Environment,
 });
 
 export class EnvironmentsStore extends Renderer.K8sApi.KubeObjectStore<Environment> {
-  api = environmentsApi
+  api = environmentsApi;
 }
 
 export const environmentsStore = new EnvironmentsStore();

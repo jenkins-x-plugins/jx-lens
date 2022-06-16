@@ -1,12 +1,12 @@
 import styles from "../../styles.module.scss";
 
-import {Renderer} from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 import React from "react";
-import {activitiesStore} from "../activity-store";
-import {Activity} from "../activity"
+import { activitiesStore } from "../activity-store";
+import { Activity } from "../activity";
 import kebabCase from "lodash/kebabCase";
-import {ExternalLink} from "./external-link";
-import {breakpointsStore} from "../breakpoint-store";
+import { ExternalLink } from "./external-link";
+import { breakpointsStore } from "../breakpoint-store";
 
 const {
   Component: {
@@ -20,25 +20,27 @@ enum sortBy {
   repository = "repository",
   branch = "branch",
   status = "status",
-  age = "age"
+  age = "age",
 }
 
+/* eslint-disable unused-imports/no-unused-vars-ts */
 // ActivityStatusTypePending an activity step is waiting to start
-const ActivityStatusTypePending = "Pending"
+const ActivityStatusTypePending = "Pending";
 // ActivityStatusTypeRunning an activity is running
-const ActivityStatusTypeRunning = "Running"
+const ActivityStatusTypeRunning = "Running";
 // ActivityStatusTypeSucceeded an activity completed successfully
-const ActivityStatusTypeSucceeded = "Succeeded"
+const ActivityStatusTypeSucceeded = "Succeeded";
 // ActivityStatusTypeFailed an activity failed
-const ActivityStatusTypeFailed = "Failed"
+const ActivityStatusTypeFailed = "Failed";
 // ActivityStatusTypeWaitingForApproval an activity is waiting for approval
-const ActivityStatusTypeWaitingForApproval = "WaitingForApproval"
+const ActivityStatusTypeWaitingForApproval = "WaitingForApproval";
 // ActivityStatusTypeError there is some error with an activity
-const ActivityStatusTypeError = "Error"
+const ActivityStatusTypeError = "Error";
 // ActivityStatusTypeAborted if the workflow was aborted
-const ActivityStatusTypeAborted = "Aborted"
+const ActivityStatusTypeAborted = "Aborted";
 // ActivityStatusTypeNotExecuted if the workflow was not executed
-const ActivityStatusTypeNotExecuted = "NotExecuted"
+const ActivityStatusTypeNotExecuted = "NotExecuted";
+/* eslint-enable unused-imports/no-unused-vars-ts */
 
 export class ActivityPage extends React.Component<{ extension: Renderer.LensExtension }> {
 
@@ -57,17 +59,17 @@ export class ActivityPage extends React.Component<{ extension: Renderer.LensExte
           }}
           dependentStores={[breakpointsStore]}
           searchFilters={[
-            (activity: Activity) => activity.getSearchFields()
+            (activity: Activity) => activity.getSearchFields(),
           ]}
           renderHeaderTitle="Pipelines"
           renderTableHeader={[
-            {title: "Owner", className: "owner", sortBy: sortBy.owner},
-            {title: "Repository", className: "repository", sortBy: sortBy.repository},
-            {title: "Branch", className: "branch", sortBy: sortBy.branch},
-            {title: "Build", className: "build"},
-            {title: "Status", className: "status", sortBy: sortBy.status},
-            {title: "Message", className: "message"},
-            {title: "Age", className: "age", sortBy: sortBy.age},
+            { title: "Owner", className: "owner", sortBy: sortBy.owner },
+            { title: "Repository", className: "repository", sortBy: sortBy.repository },
+            { title: "Branch", className: "branch", sortBy: sortBy.branch },
+            { title: "Build", className: "build" },
+            { title: "Status", className: "status", sortBy: sortBy.status },
+            { title: "Message", className: "message" },
+            { title: "Age", className: "age", sortBy: sortBy.age },
           ]}
           renderTableContents={(activity: Activity) => {
             return [
@@ -77,12 +79,12 @@ export class ActivityPage extends React.Component<{ extension: Renderer.LensExte
               activity.buildName,
               renderStatus(activity),
               renderLastStep(activity),
-              activity.createdAt
+              activity.createdAt,
             ];
           }}
         />
       </TabLayout>
-    )
+    );
   }
 }
 
@@ -91,8 +93,9 @@ function renderStatus(pa: Activity) {
   if (!pa || !pa.spec) {
     return "";
   }
-  let status = pa.spec.status;
-  let statusClass = "status-" + kebabCase(status);
+  const status = pa.spec.status;
+  const statusClass = `status-${kebabCase(status)}`;
+
   return (
     <span className={styles[statusClass]}>{status}</span>
   );
@@ -103,73 +106,93 @@ function renderLastStep(pa: Activity) {
   if (!pa || !pa.spec) {
     return "";
   }
-  let steps = pa.spec.steps;
+  const steps = pa.spec.steps;
+
   if (!steps || !steps.length) {
     return "";
   }
-  let step = steps[steps.length - 1];
+  const step = steps[steps.length - 1];
+
   if (!step) {
     return "";
   }
 
-  let st = step.stage;
+  const st = step.stage;
+
   if (st) {
-    let ssteps = st.steps;
+    const ssteps = st.steps;
+
     if (ssteps && ssteps.length) {
       for (let i = ssteps.length - 1; i >= 0; i--) {
-        let ss = ssteps[i];
+        const ss = ssteps[i];
+
         if (ss.status == ActivityStatusTypePending && i > 0) {
           continue;
         }
+
         return ss.name;
       }
     }
-    return st.name
+
+    return st.name;
   }
 
-  let promote = step.promote;
+  const promote = step.promote;
+
   if (promote) {
     let prURL = "";
-    let title = ""
-    let pr = promote.pullRequest;
+    let title = "";
+    const pr = promote.pullRequest;
+
     if (pr) {
       prURL = pr.pullRequestURL;
       title = pr.name;
     }
+
     if (prURL) {
-      let prName = "PR"
-      let i = prURL.lastIndexOf("/");
+      let prName = "PR";
+      const i = prURL.lastIndexOf("/");
+
       if (i > 0 && i < prURL.length) {
         prName = prURL.substr(i + 1);
       }
-      let env = promote.environment;
+      const env = promote.environment;
+
       if (env) {
         // TODO to title for env
-        title = "Promote to " + env;
+        title = `Promote to ${env}`;
       }
+
       return (
-        <span>{title} <ExternalLink href={prURL} text={"#" + prName}
-                                    title="view the prompte Pull Request"></ExternalLink></span>
+        <span>{title} <ExternalLink href={prURL} text={`#${prName}`}
+          title="view the prompte Pull Request"></ExternalLink></span>
       );
     }
+
     return promote.name;
   }
 
-  let preview = step.preview;
+  const preview = step.preview;
+
   if (preview) {
-    let appURL = preview.applicationURL;
+    const appURL = preview.applicationURL;
+
     if (appURL) {
       let title = preview.name;
+
       if (!title) {
-        title = "Preview"
+        title = "Preview";
       }
+
       return (
         <span>Promote <ExternalLink href={appURL} text={title}
-                                    title="view the preview application"></ExternalLink></span>
+          title="view the preview application"></ExternalLink></span>
       );
     }
+
     return preview.name;
   }
+
   return st.name;
 }
 

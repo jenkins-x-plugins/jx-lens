@@ -1,8 +1,8 @@
-import {Renderer} from "@k8slens/extensions";
+import { Renderer } from "@k8slens/extensions";
 import React from "react";
-import {Activity} from "../activity";
-import {activityContainers, podFromActivity, toContainerName} from "./activity-menu";
-import {IPodContainer} from "@k8slens/extensions/dist/src/renderer/api/endpoints";
+import { Activity } from "../activity";
+import { activityContainers, podFromActivity, toContainerName } from "./activity-menu";
+import { IPodContainer } from "@k8slens/extensions/dist/src/renderer/api/endpoints";
 
 export interface ActivityDetailsProps extends Renderer.Component.KubeObjectDetailsProps<Activity> {
 }
@@ -10,14 +10,15 @@ export interface ActivityDetailsProps extends Renderer.Component.KubeObjectDetai
 export class ActivityDetails extends React.Component<ActivityDetailsProps> {
 
   render() {
-    const {object: activity} = this.props;
+    const { object: activity } = this.props;
+
     if (!activity) return null;
 
     const containers = activityContainers(activity);
     const pod = podFromActivity(activity);
 
     return (
-      /*
+    /*
       <div>
         <nav>
           <Renderer.Component..
@@ -29,7 +30,7 @@ export class ActivityDetails extends React.Component<ActivityDetailsProps> {
       </div>
         */
 
-      // TODO a tree would be great! :)
+    // TODO a tree would be great! :)
 
 
       <div className="Activity">
@@ -50,6 +51,6 @@ export class ActivityDetails extends React.Component<ActivityDetailsProps> {
         })
         }
       </div>
-    )
+    );
   }
 }

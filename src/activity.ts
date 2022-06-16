@@ -1,10 +1,10 @@
-import {Renderer} from "@k8slens/extensions";
-import moment from 'moment';
+import { Renderer } from "@k8slens/extensions";
+import moment from "moment";
 
 export class Activity extends Renderer.K8sApi.KubeObject {
-  static kind = "PipelineActivity"
-  static namespaced = true
-  static apiBase = "/apis/jenkins.io/v1/pipelineactivities"
+  static kind = "PipelineActivity";
+  static namespaced = true;
+  static apiBase = "/apis/jenkins.io/v1/pipelineactivities";
 
   kind: string;
   apiVersion: string;
@@ -21,7 +21,7 @@ export class Activity extends Renderer.K8sApi.KubeObject {
     annotations: {
       [key: string]: string;
     };
-  }
+  };
   spec: {
     build: string;
     context: string;
@@ -36,14 +36,16 @@ export class Activity extends Renderer.K8sApi.KubeObject {
     creationTimestamp: string;
     completedTimestamp: string;
     steps: ActivityStep[];
-  }
+  };
 
   get buildName(): string {
-    let build = this.spec.build;
-    let context = this.spec.context;
+    const build = this.spec.build;
+    const context = this.spec.context;
+
     if (build && context) {
-      return "#" + build + " " + context;
+      return `#${build} ${context}`;
     }
+
     return build || context || "";
   }
 
@@ -53,10 +55,12 @@ export class Activity extends Renderer.K8sApi.KubeObject {
 
   get pipelineDescription(): string {
     const s = this.spec;
+
     if (!s) {
       return "";
     }
-    return `${s.gitOwner}/${s.gitRepository}/${s.gitBranch} ${this.buildName}`
+
+    return `${s.gitOwner}/${s.gitRepository}/${s.gitBranch} ${this.buildName}`;
   }
 
   get createdTime(): any {
@@ -68,6 +72,7 @@ export function createdTime(timestamp: string | undefined) {
   if (timestamp) {
     return moment(timestamp);
   }
+
   return null;
 }
 
@@ -75,7 +80,8 @@ export function dateFromNow(timestamp: string | undefined): string {
   if (timestamp) {
     return moment(timestamp).fromNow(false);
   }
-  return '';
+
+  return "";
 }
 
 

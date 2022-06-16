@@ -21,9 +21,9 @@
 
 
 import React from "react";
-import {Common, Renderer} from "@k8slens/extensions";
-import {Repository} from "../repository";
-import {openExternalLink} from "./activity-menu";
+import { Common, Renderer } from "@k8slens/extensions";
+import { Repository } from "../repository";
+import { openExternalLink } from "./activity-menu";
 
 const {
   Component: {
@@ -44,20 +44,22 @@ export interface RepositoryMenuProps extends Renderer.Component.KubeObjectMenuPr
 
 export class RepositoryMenu extends React.Component<RepositoryMenuProps> {
   render() {
-    const {object, toolbar} = this.props;
+    const { object, toolbar } = this.props;
 
 
     let appURL = "";
+
     if (object && object.spec) {
       appURL = object.spec.url;
     }
+
     if (!appURL) {
       return "";
     }
 
     return (
       <MenuItem onClick={Util.prevDefault(() => openExternalLink(appURL))}
-                title="View the repository">
+        title="View the repository">
         <Icon material="visibility" interactive={toolbar}/>
         <span className="title">View Repository</span>
       </MenuItem>
