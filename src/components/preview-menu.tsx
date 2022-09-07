@@ -21,9 +21,9 @@
 
 
 import React from "react";
-import {Common, Renderer} from "@k8slens/extensions";
-import {Preview} from "../preview";
-import {openExternalLink} from "./activity-menu";
+import { Common, Renderer } from "@k8slens/extensions";
+import { Preview } from "../preview";
+import { openExternalLink } from "./activity-menu";
 
 const {
   Component: {
@@ -44,20 +44,22 @@ export interface PreviewMenuProps extends Renderer.Component.KubeObjectMenuProps
 
 export class PreviewMenu extends React.Component<PreviewMenuProps> {
   render() {
-    const {object, toolbar} = this.props;
+    const { object, toolbar } = this.props;
 
 
     let appURL = "";
+
     if (object && object.spec) {
       appURL = object.spec.resources.url;
     }
+
     if (!appURL) {
       return "";
     }
 
     return (
       <MenuItem onClick={Util.prevDefault(() => openExternalLink(appURL))}
-                title="View the preview environment application">
+        title="View the preview environment application">
         <Icon material="visibility" interactive={toolbar}/>
         <span className="title">View Preview</span>
       </MenuItem>

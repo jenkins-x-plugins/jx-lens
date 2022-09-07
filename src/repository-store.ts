@@ -4,11 +4,11 @@ import { Repository } from "./repository";
 export class RepositoriesApi extends Renderer.K8sApi.KubeApi<Repository> {
 }
 export const repositoriesApi = new RepositoriesApi({
-  objectConstructor: Repository
+  objectConstructor: Repository,
 });
 
 export class RepositoriesStore extends Renderer.K8sApi.KubeObjectStore<Repository> {
-  api = repositoriesApi
+  api = repositoriesApi;
 }
 
 export const repositoriesStore = new RepositoriesStore();

@@ -1,10 +1,10 @@
-import {Renderer} from "@k8slens/extensions";
-import {dateFromNow} from "./activity";
+import { Renderer } from "@k8slens/extensions";
+import { dateFromNow } from "./activity";
 
 export class Environment extends Renderer.K8sApi.KubeObject {
-  static kind = "Environment"
-  static namespaced = true
-  static apiBase = "/apis/jenkins.io/v1/environments"
+  static kind = "Environment";
+  static namespaced = true;
+  static apiBase = "/apis/jenkins.io/v1/environments";
 
   kind: string;
   apiVersion: string;
@@ -21,7 +21,7 @@ export class Environment extends Renderer.K8sApi.KubeObject {
     annotations: {
       [key: string]: string;
     };
-  }
+  };
   spec: {
     kind: string;
     label: string;
@@ -30,12 +30,13 @@ export class Environment extends Renderer.K8sApi.KubeObject {
     promotionStrategy: string;
     remoteCluster: boolean;
     source: EnvironmentSource;
-  }
+  };
 
   get sourceUrl(): string {
     if (!this.spec || !this.spec.source) {
-      return ""
+      return "";
     }
+
     return this.spec.source.url || "";
   }
 

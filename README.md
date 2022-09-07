@@ -37,7 +37,31 @@ npm start
        
 Once the extension has been rebuilt inside `Lens` you can click on the `View -> Reload` menu item (or `R' keypress) to reload to see the new changes.
 
-## Test
+## Testing
+
+To run the lint and unit tests, type:
+
+```bash
+npm test
+```
+
+### Linting
+
+> The formatting [rules](https://github.com/lensapp/lens/blob/master/.eslintrc.js) are inherited from [lensapps](https://github.com/lensapp) to match the _Lens Extension_ ecosystem. At this time, only the `include-header` rules have been disabled.
+
+To run only linting, type:
+
+```bash
+npm run lint
+```
+
+OR
+
+To auto-fix lint issues, type:
+
+```bash
+npm run lint:fix
+```
 
 Open Lens application and navigate to a cluster. You should see "Certificates" in a menu.
 
